@@ -9,13 +9,21 @@ function App() {
   return (
     <Container component="article" maxWidth="sm">
     <Typography variant="h4" component="h1" align="center">Formulario de Cadastro</Typography>
-      <FormularioCadastro aoEnviar={aoEnviarForm}/>
+      <FormularioCadastro enviarForm={enviarForm} validarCPF={validarCPF}/>
     </Container>
   );
 }
 
-function aoEnviarForm(dados){
+function enviarForm(dados){
   console.log(dados);
+}
+
+function validarCPF(cpf){
+  if(cpf.length !== 11){
+    return {valido: false, texto: "CPF deve ter 11 digitos"}
+  } else {
+    return {valido: true, texto: ""}
+  }
 }
 
 export default App;

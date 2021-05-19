@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControlLabel, Switch } from '@material-ui/core';
 
-function FormularioCadastro({aoEnviar}) {
+function FormularioCadastro({enviarForm, validarCPF}) {
   // DESCONTRUCAO DE OBJ PRPOS
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
@@ -9,11 +9,13 @@ function FormularioCadastro({aoEnviar}) {
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(true);
 
+  const [erros, setErros] = useState({cpf: {valido: true, texto:""}});
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        aoEnviar({nome,sobrenome,cpf,promocoes,novidades});
+        enviarForm({nome,sobrenome,cpf,promocoes,novidades});
       }}
     >
       <TextField
@@ -42,6 +44,13 @@ function FormularioCadastro({aoEnviar}) {
         onChange={(event) => {
           setCpf(event.target.value);
         }}
+
+        onBlur={(evnet) => {
+          const ehValido = validarCPF(cpf);
+          setErros({cpf: ehValido})
+        }}
+        error={!erros.cpf.valido}
+        helperText={erros.cpf.texto}
         id="cpf"
         label="CPF"
         variant="outlined"
